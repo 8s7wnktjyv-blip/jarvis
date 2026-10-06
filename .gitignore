@@ -1,0 +1,18 @@
+# Abhängigkeiten
+node_modules/
+
+# Next.js Build
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Geheime Zugangsdaten – niemals committen!
+.env
+.env.*
+!.env.example
+
+# Logs & System
+npm-debug.log*
+.DS_Store
+.vercel
