@@ -11,8 +11,8 @@ import { PlusIcon, SpeakerIcon } from "./Icons";
 import { InstallHint } from "./InstallHint";
 import { MessageBubble, type UiMessage } from "./MessageBubble";
 
-const STORAGE_KEY = "javis.conversation.v1";
-const VOICE_KEY = "javis.voiceOutput";
+const STORAGE_KEY = "james.conversation.v1";
+const VOICE_KEY = "james.voiceOutput";
 
 const createId = () =>
   typeof crypto !== "undefined" && "randomUUID" in crypto

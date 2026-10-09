@@ -1,4 +1,4 @@
-# J.A.V.I.S.
+# James
 
 Mein persönlicher KI-Assistent – eine moderne Web-App im futuristischen Look,
 optimiert fürs iPhone und als PWA auf dem Home-Bildschirm installierbar.
@@ -42,7 +42,7 @@ Lokal: `.env.local` (wird nicht committet). In Produktion, z. B. auf Vercel:
 
 1. App mit HTTPS deployen (z. B. Repository bei [Vercel](https://vercel.com) importieren und Variablen setzen).
 2. Die URL in **Safari** öffnen.
-3. **Teilen** → **Zum Home-Bildschirm**. J.A.V.I.S. startet danach im Vollbild wie eine native App.
+3. **Teilen** → **Zum Home-Bildschirm**. James startet danach im Vollbild wie eine native App.
 
 ## Projektstruktur
 

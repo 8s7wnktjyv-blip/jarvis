@@ -1,8 +1,8 @@
 {
-  "name": "javis",
+  "name": "james",
   "version": "0.1.0",
   "private": true,
-  "description": "J.A.V.I.S. – persönlicher KI-Assistent als PWA",
+  "description": "James – persönlicher KI-Assistent als PWA",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

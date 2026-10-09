@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ShareIcon } from "./Icons";
 
-/** Zeigt iPhone-Nutzern in Safari, wie J.A.V.I.S. zum Home-Bildschirm hinzugefügt wird. */
+/** Zeigt iPhone-Nutzern in Safari, wie James zum Home-Bildschirm hinzugefügt wird. */
 export function InstallHint() {
   const [visible, setVisible] = useState(false);
 
@@ -15,7 +15,7 @@ export function InstallHint() {
       (navigator as Navigator & { standalone?: boolean }).standalone === true;
     let dismissed = false;
     try {
-      dismissed = localStorage.getItem("javis.installHint.dismissed") === "1";
+      dismissed = localStorage.getItem("james.installHint.dismissed") === "1";
     } catch {
       /* Speicher nicht verfügbar */
     }
@@ -27,7 +27,7 @@ export function InstallHint() {
   const dismiss = () => {
     setVisible(false);
     try {
-      localStorage.setItem("javis.installHint.dismissed", "1");
+      localStorage.setItem("james.installHint.dismissed", "1");
     } catch {
       /* ignorieren */
     }

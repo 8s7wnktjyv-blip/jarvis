@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type FormEvent, type KeyboardEvent } from "react";
+import { assistant } from "@/config/assistant";
 import { MicIcon, SendIcon, StopIcon } from "./Icons";
 
 interface ComposerProps {
@@ -67,7 +68,7 @@ export function Composer({ value, onChange, onSubmit, onStop, busy, voice }: Com
           className="composer__input"
           rows={1}
           value={shown}
-          placeholder={voice.listening ? "Ich höre zu …" : "Nachricht an J.A.V.I.S."}
+          placeholder={voice.listening ? "Ich höre zu …" : `Nachricht an ${assistant.name}`}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
           readOnly={voice.listening}

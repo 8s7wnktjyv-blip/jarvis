@@ -1,4 +1,4 @@
-/* ───────────────────────── J.A.V.I.S. Design-Tokens ───────────────────────── */
+/* ───────────────────────── James Design-Tokens ───────────────────────── */
 :root {
   --bg: #05080f;
   --bg-elevated: rgba(14, 24, 38, 0.72);
@@ -112,6 +112,7 @@ textarea:focus-visible {
   font-size: 17px;
   font-weight: 700;
   letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 
 .topbar__status {
@@ -267,6 +268,7 @@ textarea:focus-visible {
   margin: 0 0 4px 4px;
   font-size: 10px;
   letter-spacing: 0.2em;
+  text-transform: uppercase;
   color: var(--accent);
 }
 

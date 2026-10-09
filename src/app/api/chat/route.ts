@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "no-store",
-      "X-Javis-Provider": provider.id,
+      "X-Assistant-Provider": provider.id,
     },
   });
 }

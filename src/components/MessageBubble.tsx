@@ -1,3 +1,4 @@
+import { assistant } from "@/config/assistant";
 import { FormattedText } from "./FormattedText";
 
 export interface UiMessage {
@@ -11,12 +12,12 @@ export function MessageBubble({ message, streaming }: { message: UiMessage; stre
   const isUser = message.role === "user";
   return (
     <div className={`message ${isUser ? "message--user" : "message--assistant"}`}>
-      {!isUser && <span className="message__label">J.A.V.I.S.</span>}
+      {!isUser && <span className="message__label">{assistant.name}</span>}
       <div className={`bubble ${message.error ? "bubble--error" : ""}`}>
         {message.content ? (
           <FormattedText text={message.content} />
         ) : (
-          <span className="typing" aria-label="J.A.V.I.S. denkt nach">
+          <span className="typing" aria-label={`${assistant.name} denkt nach`}>
             <i />
             <i />
             <i />

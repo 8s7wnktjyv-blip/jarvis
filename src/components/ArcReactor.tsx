@@ -1,13 +1,15 @@
+import { assistant } from "@/config/assistant";
+
 export type ReactorState = "idle" | "listening" | "thinking" | "speaking";
 
-/** Animierter „Kern“ von J.A.V.I.S. – visualisiert den aktuellen Zustand. */
+/** Animierter „Kern“ von James – visualisiert den aktuellen Zustand. */
 export function ArcReactor({ state = "idle", size = 160 }: { state?: ReactorState; size?: number }) {
   return (
     <div
       className={`reactor reactor--${state}`}
       style={{ width: size, height: size }}
       role="img"
-      aria-label={`J.A.V.I.S. Status: ${state}`}
+      aria-label={`${assistant.name} Status: ${state}`}
     >
       <svg viewBox="0 0 200 200" aria-hidden="true">
         <defs>

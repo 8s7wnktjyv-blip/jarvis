@@ -31,7 +31,7 @@ function composeReply(input: string): string {
   }
   if (text.includes("was kannst du") || text.includes("hilfe") || text.includes("funktionen")) {
     return [
-      "Aktuell bin ich die Grundversion von J.A.V.I.S.:",
+      "Aktuell bin ich die Grundversion von James:",
       "",
       "• Chat mit gestreamten Antworten",
       "• Spracheingabe über das Mikrofon (sofern Ihr Browser es unterstützt)",
