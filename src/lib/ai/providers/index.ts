@@ -1,7 +1,7 @@
 import { serverEnv, type ProviderId } from "@/lib/env";
 import type { AIProvider } from "../types";
-import { anthropicProvider } from "./anthropic";
 import { demoProvider } from "./demo";
+import { groqProvider } from "./groq";
 
 /**
  * Registry aller KI-Anbieter.
@@ -11,7 +11,7 @@ import { demoProvider } from "./demo";
  */
 const providers: Record<ProviderId, AIProvider> = {
   demo: demoProvider,
-  anthropic: anthropicProvider,
+  groq: groqProvider,
 };
 
 export function getActiveProvider(): AIProvider {

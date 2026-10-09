@@ -5,6 +5,17 @@ import type { ChatMessage } from "@/lib/ai/types";
  * Die Oberfläche spricht nur mit dem eigenen Backend (/api/chat) –
  * nie direkt mit einem KI-Anbieter. So bleiben API-Schlüssel auf dem Server.
  */
+/** Fehler aus der Chat-API inklusive HTTP-Status (z. B. 401 = Anmeldung nötig). */
+export class ChatError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message);
+    this.name = "ChatError";
+  }
+}
+
 export async function streamChat(
   messages: ChatMessage[],
   { onToken, signal }: { onToken: (text: string) => void; signal?: AbortSignal },
@@ -24,7 +35,7 @@ export async function streamChat(
     } catch {
       /* Antwort war kein JSON */
     }
-    throw new Error(message);
+    throw new ChatError(message, response.status);
   }
 
   const reader = response.body.getReader();

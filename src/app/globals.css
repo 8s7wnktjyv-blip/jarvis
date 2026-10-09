@@ -564,3 +564,92 @@ textarea:focus-visible {
     max-width: 75%;
   }
 }
+
+/* ───────────────────────── Zugangsschutz ───────────────────────── */
+.lock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: calc(var(--safe-top) + 24px) 24px calc(var(--safe-bottom) + 24px);
+  text-align: center;
+  animation: fade-up 0.5s ease both;
+}
+
+.lock__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.lock__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(100%, 340px);
+  margin-top: 8px;
+}
+
+.lock__label {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.lock__input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text);
+  /* 16px verhindert das automatische Zoomen von iOS Safari */
+  font: 16px/1.4 var(--font-mono);
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+.lock__input:focus {
+  outline: none;
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 4px rgba(56, 225, 255, 0.08);
+}
+
+.lock__button {
+  padding: 14px 16px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #021018;
+  font-weight: 600;
+  box-shadow: 0 0 18px var(--accent-glow);
+}
+.lock__button:disabled {
+  opacity: 0.45;
+  box-shadow: none;
+  cursor: default;
+}
+
+.lock__error,
+.lock__notice {
+  margin: 0;
+  font-size: 14px;
+  color: var(--danger);
+}
+.lock__notice {
+  max-width: 34ch;
+  line-height: 1.5;
+}
+
+.warning-banner {
+  margin: 0 16px 4px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 196, 0, 0.4);
+  background: rgba(255, 196, 0, 0.08);
+  color: #ffd866;
+  font-size: 13px;
+  text-align: center;
+}

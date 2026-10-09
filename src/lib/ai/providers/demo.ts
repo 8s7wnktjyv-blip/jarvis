@@ -45,7 +45,7 @@ function composeReply(input: string): string {
   return [
     `Verstanden: „${input.trim().slice(0, 140)}“.`,
     "",
-    "Ich laufe derzeit im Demo-Modus ohne echte KI. Hinterlegen Sie `ANTHROPIC_API_KEY` als Environment Variable auf dem Server, und ich antworte mit voller Intelligenz.",
+    "Ich laufe derzeit im Demo-Modus ohne echte KI. Hinterlegen Sie einen kostenlosen `GROQ_API_KEY` als Environment Variable auf dem Server, und ich antworte mit echter KI.",
   ].join("\n");
 }
 

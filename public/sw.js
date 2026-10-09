@@ -4,7 +4,7 @@
  * - API-Anfragen (/api/*) werden NIE gecacht
  * Bei Änderungen an der Caching-Logik CACHE_VERSION erhöhen.
  */
-const CACHE_VERSION = "james-v2";
+const CACHE_VERSION = "james-v3";
 const APP_SHELL = ["/", "/manifest.webmanifest", "/icon.svg", "/icons/192", "/icons/512"];
 
 self.addEventListener("install", (event) => {

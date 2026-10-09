@@ -1,5 +1,5 @@
-import { Chat } from "@/components/Chat";
+import { AccessGate } from "@/components/AccessGate";
 
 export default function HomePage() {
-  return <Chat />;
+  return <AccessGate />;
 }

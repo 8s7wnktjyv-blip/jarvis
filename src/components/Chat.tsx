@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { assistant } from "@/config/assistant";
-import { streamChat } from "@/lib/chat-client";
+import { ChatError, streamChat } from "@/lib/chat-client";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import { ArcReactor, type ReactorState } from "./ArcReactor";
@@ -29,7 +29,14 @@ function loadConversation(): UiMessage[] {
   }
 }
 
-export function Chat() {
+interface ChatProps {
+  /** Lokal ohne APP_ACCESS_CODE: Chat läuft, aber mit Warnhinweis. */
+  unprotected: boolean;
+  /** Server meldet 401 → zurück zum Sperrbildschirm. */
+  onUnauthorized: () => void;
+}
+
+export function Chat({ unprotected, onUnauthorized }: ChatProps) {
   const [messages, setMessages] = useState<UiMessage[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -110,6 +117,9 @@ export function Chat() {
       } catch (error) {
         if (controller.signal.aborted) {
           if (!reply) setMessages((prev) => prev.filter((m) => m.id !== replyId));
+        } else if (error instanceof ChatError && error.status === 401) {
+          setMessages((prev) => prev.filter((m) => m.id !== replyId));
+          onUnauthorized();
         } else {
           const message = error instanceof Error ? error.message : "Unbekannter Fehler.";
           setMessages((prev) =>
@@ -124,7 +134,7 @@ export function Chat() {
         setStreamingId(null);
       }
     },
-    [busy, tts, voiceOutput],
+    [busy, tts, voiceOutput, onUnauthorized],
   );
 
   const voice = useSpeechRecognition({
@@ -201,6 +211,12 @@ export function Chat() {
           </button>
         </div>
       </header>
+
+      {unprotected && (
+        <p className="warning-banner" role="status">
+          Kein Zugangscode gesetzt – der Chat ist nur lokal ungeschützt nutzbar.
+        </p>
+      )}
 
       <main className="conversation" ref={scrollRef} aria-live="polite">
         {empty ? (

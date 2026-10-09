@@ -1,41 +1,31 @@
 import { assistant } from "@/config/assistant";
 import { getActiveProvider } from "@/lib/ai/providers";
-import { ProviderError, type ChatMessage } from "@/lib/ai/types";
+import { ProviderError } from "@/lib/ai/types";
+import { parseMessages } from "@/lib/ai/validate";
+import { checkAccess } from "@/lib/auth/session";
+import { chatLimiter, clientKey } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-const MAX_MESSAGES = 40;
-const MAX_CHARS_PER_MESSAGE = 8000;
 
 function jsonError(message: string, status: number) {
   return Response.json({ error: message }, { status });
 }
 
-/** Prüft den Request-Body und gibt eine bereinigte Nachrichtenliste zurück. */
-function parseMessages(body: unknown): ChatMessage[] | null {
-  if (!body || typeof body !== "object" || !Array.isArray((body as { messages?: unknown }).messages)) {
-    return null;
-  }
-  const raw = (body as { messages: unknown[] }).messages;
-  const messages: ChatMessage[] = [];
-  for (const item of raw) {
-    if (!item || typeof item !== "object") return null;
-    const { role, content } = item as Record<string, unknown>;
-    if ((role !== "user" && role !== "assistant") || typeof content !== "string") return null;
-    const trimmed = content.trim();
-    if (!trimmed) continue;
-    messages.push({ role, content: trimmed.slice(0, MAX_CHARS_PER_MESSAGE) });
-  }
-
-  // Nur die jüngsten Nachrichten senden; der Verlauf muss mit "user" beginnen und enden.
-  const recent = messages.slice(-MAX_MESSAGES);
-  while (recent.length && recent[0].role !== "user") recent.shift();
-  if (!recent.length || recent[recent.length - 1].role !== "user") return null;
-  return recent;
-}
-
 export async function POST(request: Request) {
+  const access = checkAccess(request);
+  if (!access.ok) {
+    return jsonError(access.error, access.status);
+  }
+
+  const limit = chatLimiter.check(clientKey(request));
+  if (!limit.allowed) {
+    return Response.json(
+      { error: `Zu viele Anfragen. Bitte in ${limit.retryAfterSeconds} Sekunden erneut versuchen.` },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();

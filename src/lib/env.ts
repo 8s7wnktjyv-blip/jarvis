@@ -6,10 +6,10 @@
  * niemals mit dem Präfix NEXT_PUBLIC_ versehen.
  */
 
-export type ProviderId = "demo" | "anthropic";
+export type ProviderId = "demo" | "groq";
 
-const EFFORT_LEVELS = ["low", "medium", "high", "xhigh", "max"] as const;
-export type EffortLevel = (typeof EFFORT_LEVELS)[number];
+/** Standardmodell im kostenlosen Groq-Plan (siehe README → Quellen). */
+export const DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b";
 
 function read(name: string): string | undefined {
   const value = process.env[name]?.trim();
@@ -17,20 +17,23 @@ function read(name: string): string | undefined {
 }
 
 export const serverEnv = {
-  get anthropicApiKey() {
-    return read("ANTHROPIC_API_KEY");
+  get groqApiKey() {
+    return read("GROQ_API_KEY");
   },
-  get model() {
-    return read("AI_MODEL") ?? "claude-opus-5-5";
+  get groqModel() {
+    return read("GROQ_MODEL") ?? DEFAULT_GROQ_MODEL;
   },
-  get effort(): EffortLevel {
-    const value = read("AI_EFFORT");
-    return EFFORT_LEVELS.includes(value as EffortLevel) ? (value as EffortLevel) : "medium";
+  /** Zugangscode für die App; ohne ihn ist der Chat in Produktion gesperrt. */
+  get accessCode() {
+    return read("APP_ACCESS_CODE");
   },
-  /** Gewählter Anbieter; "auto" nutzt Claude, sobald ein Schlüssel hinterlegt ist. */
+  get isProduction() {
+    return process.env.NODE_ENV === "production";
+  },
+  /** Gewählter Anbieter; "auto" nutzt Groq, sobald ein Schlüssel hinterlegt ist. */
   get provider(): ProviderId {
     const value = (read("AI_PROVIDER") ?? "auto").toLowerCase();
-    if (value === "demo" || value === "anthropic") return value;
-    return this.anthropicApiKey ? "anthropic" : "demo";
+    if (value === "demo" || value === "groq") return value;
+    return this.groqApiKey ? "groq" : "demo";
   },
 };

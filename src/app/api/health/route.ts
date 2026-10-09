@@ -1,12 +1,17 @@
 import { getActiveProvider } from "@/lib/ai/providers";
+import { checkAccess } from "@/lib/auth/session";
 
 export const dynamic = "force-dynamic";
 
-/** Statusabfrage für die Oberfläche – verrät keine Geheimnisse, nur den aktiven Modus. */
-export function GET() {
-  const provider = getActiveProvider();
+/** Statusabfrage – den aktiven Anbieter sehen nur angemeldete Nutzer. */
+export function GET(request: Request) {
+  const access = checkAccess(request);
+  const provider = access.ok ? getActiveProvider() : null;
   return Response.json(
-    { status: "online", provider: { id: provider.id, label: provider.label } },
+    {
+      status: "online",
+      provider: provider ? { id: provider.id, label: provider.label } : null,
+    },
     { headers: { "Cache-Control": "no-store" } },
   );
 }
